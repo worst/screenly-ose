@@ -20,6 +20,7 @@ from time import sleep, time
 import logging
 from glob import glob
 from stat import S_ISFIFO
+import urllib2, calendar, urllib
 
 # Initiate logging
 logging.basicConfig(level=logging.INFO,
@@ -59,6 +60,7 @@ def str_to_bol(string):
 class Scheduler(object):
     def __init__(self, *args, **kwargs):
         logging.debug('Scheduler init')
+        self.counter = 0
         self.update_playlist()
 
     def get_next_asset(self):
@@ -70,8 +72,7 @@ class Scheduler(object):
         idx = self.index
         self.index = (self.index + 1) % self.nassets
         logging.debug('get_next_asset counter %d returning asset %d of %d' % (self.counter, idx+1, self.nassets))
-        if shuffle_playlist and self.index == 0:
-            self.counter += 1
+        self.counter += 1
         return self.assets[idx]
 
     def refresh_playlist(self):
@@ -82,6 +83,9 @@ class Scheduler(object):
             self.update_playlist()
         elif shuffle_playlist and self.counter >= 5:
             self.update_playlist()
+        elif self.counter >= 5:
+            self.recache_if_newer()
+            self.counter = 0
         elif self.deadline != None and self.deadline <= time_cur:
             self.update_playlist()
 
@@ -90,7 +94,6 @@ class Scheduler(object):
         (self.assets, self.deadline) = generate_asset_list()
         self.nassets = len(self.assets)
         self.gentime = time()
-        self.counter = 0
         self.index = 0
         logging.debug('update_playlist done, count %d, counter %d, index %d, deadline %s' % (self.nassets, self.counter, self.index, self.deadline))
 
@@ -101,6 +104,31 @@ class Scheduler(object):
         except:
             db_mtime = 0
         return db_mtime >= self.gentime
+
+    def recache_if_newer(self):
+        conn = sqlite3.connect(database, detect_types=sqlite3.PARSE_DECLTYPES)
+        c = conn.cursor()
+        
+        c.execute("SELECT uri, asset_id, cached_location, name FROM assets WHERE is_cached='on'")
+        assets = c.fetchall()
+        
+        for asset in assets:
+            # Match variables with database
+            uri = asset[0]
+            asset_id = asset[1]
+            cached_location = asset[2]
+            name = asset[3]
+            
+            logging.info('checking for newer version of %s on server' % (name))
+                        
+            page = urllib2.urlopen(uri)
+            last_modified_on_server = calendar.timegm(page.info().getdate('last-modified'))
+            statbuf = os_stat(cached_location)
+            last_modified_local = statbuf.st_mtime
+            if last_modified_on_server > last_modified_local:
+                logging.info('recaching asset %s' % (name))
+                remove("/home/pi/.screenly/cache/" + asset_id)
+                urllib.urlretrieve(uri, "/home/pi/.screenly/cache/" + asset_id)
 
 def generate_asset_list():
     logging.info('Generating asset-list...')
@@ -188,13 +216,14 @@ def get_fifo():
 def disable_browser_status():
     logging.debug('Disabled status-bar in browser')
     f = open(fifo, 'a')
-    f.write('set show_status = 0\n')
+    f.write('set show_status = 0\nset enable_private = 1\n')
     f.close()
 
 
 def view_image(image, name, duration):
     logging.debug('Displaying image %s for %s seconds.' % (image, duration))
-    url = html_templates.image_page(image, name)
+    #url = html_templates.image_page(image, name)
+    url = image
     f = open(fifo, 'a')
     f.write('set uri = %s\n' % url)
     f.close()
