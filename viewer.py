@@ -120,15 +120,19 @@ class Scheduler(object):
             name = asset[3]
             
             logging.info('checking for newer version of %s on server' % (name))
-                        
-            page = urllib2.urlopen(uri)
-            last_modified_on_server = calendar.timegm(page.info().getdate('last-modified'))
-            statbuf = os_stat(cached_location)
-            last_modified_local = statbuf.st_mtime
-            if last_modified_on_server > last_modified_local:
-                logging.info('recaching asset %s' % (name))
-                remove("/home/pi/.screenly/cache/" + asset_id)
-                urllib.urlretrieve(uri, "/home/pi/.screenly/cache/" + asset_id)
+            
+            # handling errors in the case of no web connectivity
+            try:            
+                page = urllib2.urlopen(uri)
+                last_modified_on_server = calendar.timegm(page.info().getdate('last-modified'))
+                statbuf = os_stat(cached_location)
+                last_modified_local = statbuf.st_mtime
+                if last_modified_on_server > last_modified_local:
+                    logging.info('recaching asset %s' % (name))
+                    remove("/home/pi/.screenly/cache/" + asset_id)
+                    urllib.urlretrieve(uri, "/home/pi/.screenly/cache/" + asset_id)
+            except Exception as e:
+                logging.error e
 
 def generate_asset_list():
     logging.info('Generating asset-list...')
