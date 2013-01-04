@@ -132,7 +132,7 @@ class Scheduler(object):
                     remove("/home/pi/.screenly/cache/" + asset_id)
                     urllib.urlretrieve(uri, "/home/pi/.screenly/cache/" + asset_id)
             except Exception as e:
-                logging.error e
+                logging.error(e)
 
 def generate_asset_list():
     logging.info('Generating asset-list...')
