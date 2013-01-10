@@ -27,7 +27,7 @@
 % end
 
 <head>
-	<title>Screenly Edit Asset</title>
+	<title>Omni Player - Edit Asset</title>
 	<link type="text/css" href="/static/css/style.css" rel="Stylesheet" />
 	<link type="text/css" href="/static/css/ui-lightness/jquery-ui-1.8.23.custom.css" rel="Stylesheet" />
 	<script type="text/javascript" src="/static/js/jquery-1.8.0.min.js"></script>
@@ -55,7 +55,7 @@
 </head>
 <body>
 	<div class="main">
-		<h1>Screenly :: Edit Asset</h1>
+		<h1>Omni Player :: Edit Asset</h1>
 		<p>
 			<strong>Free Space</strong> (on "/"): {{free_space}}
 			<br />

@@ -1,11 +1,11 @@
 % from datetime import datetime
 <head>
-	<title>Screenly - View Assets</title>
+	<title>Omnil Player - View Assets</title>
 	<link type="text/css" href="/static/css/style.css" rel="Stylesheet" />
 </head>
 <body>
 	<div class="main">
-		<h1>Screenly :: View Assets</h1>
+		<h1>Omni Player :: View Assets</h1>
 		<table class="center">
 			<tr>
 				<th>Name</th>

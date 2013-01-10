@@ -202,8 +202,8 @@ def load_browser():
     logging.info('Browser loaded. Running as PID %d.' % browser.pid)
 
     if show_splash:
-        # Show splash screen for 60 seconds.
-        sleep(60)
+        # Show splash screen for 10 seconds.
+        sleep(20)
     else:
         # Give browser some time to start (we have seen multiple uzbl running without this)
         sleep(10)

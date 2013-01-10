@@ -1,11 +1,11 @@
 % from datetime import date, datetime
 <head>
-	<title>Screenly Submit Asset</title>
+	<title>Omni Player - Submit Asset</title>
 	<link type="text/css" href="/static/css/style.css" rel="Stylesheet" />
 </head>
 <body>
 	<div class="main">
-		<h1>Screenly :: Submit Asset</h1>
+		<h1>Omni Player :: Submit Asset</h1>
 		<p>
 			<strong>Free Space</strong> (on "/"): {{free_space}}
 			<br />

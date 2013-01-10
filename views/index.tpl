@@ -1,10 +1,10 @@
 <head>
-	<title>Screenly</title>
+	<title>Omni Player</title>
 	<link type="text/css" href="/static/css/style.css" rel="Stylesheet" />
 </head>
 <body>
 	<div class="main">
-		<h1>Screenly</h1>
+		<h1>Omni Player</h1>
 		<h2>View</h2>
 		<p>
 			<a href="/view_playlist">View playlist</a>
@@ -24,6 +24,6 @@
 		<p>
 	</div>
 	<div class="footer">
-		<em>Brought to you by <a href="http://wireload.net">WireLoad</a>.</em>
+		<em>Brought to you by <a href="http://media-displays.com">MEDIA DISPLAYS</a>.</em>
 	</div>
 </body>

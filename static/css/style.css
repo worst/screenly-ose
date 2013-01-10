@@ -1,6 +1,6 @@
 body {
-    /* From subtlepatterns.com  */
-    background-image:url('/static/img/low_contrast_linen.png');
+    
+    background-color:#232323;
     background-repeat: repeat;
     font-family: "HelveticaNeue-Light","Helvetica Neue Light","HelveticaNeue", "Helvetica Neue", "Helvetica", "Arial" , "sans-serif";
     text-align: center;

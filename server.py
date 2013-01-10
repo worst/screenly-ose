@@ -404,7 +404,7 @@ def splash_page():
         url = 'http://' + my_ip + ':8080'
     except:
         ip_lookup = False
-        url = "Unable to lookup IP from eth0."
+        url = "Unable to lookup IP from eth0. Using Wifi?"
 
     return template('splash_page', ip_lookup=ip_lookup, url=url)
 
