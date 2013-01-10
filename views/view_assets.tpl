@@ -1,6 +1,6 @@
 % from datetime import datetime
 <head>
-	<title>Omnil Player - View Assets</title>
+	<title>Omni Player - View Assets</title>
 	<link type="text/css" href="/static/css/style.css" rel="Stylesheet" />
 </head>
 <body>
